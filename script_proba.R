@@ -1,6 +1,17 @@
+# Instalación y Descarga de libreria
+
 install.packages("dplyr")
 library(dplyr)
 
-twins <- read.csv("C:/Users/manue/Desktop/PYE_Final/twins.txt", header = FALSE)
+# Importación de base de datos "Twins"
+twins <- read.csv("C:/Users/manue/Desktop/PYE_Final/twins.txt", header = TRUE)
+View(twins)
 
+# Selección de columnas "Twins"
 db_twins <- select(twins, HRWAGEH, HRWAGEL)
+
+# Exclusión de datos que se encuentran incompletosS
+db_twins <- db_twins %>%
+  filter(HRWAGEH != "." & HRWAGEL != ".")
+
+View(db_twins)
