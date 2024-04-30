@@ -1,16 +1,20 @@
 # Instalación y Descarga de libreria
-
-install.packages("dplyr")
+if (!require("dplyr")) {
+  install.packages("dplyr")
+}
 library(dplyr)
 
-# Importación de base de datos "Twins"
-twins <- read.csv(file.choose(twins.txt), header = TRUE)
+# Obtención de la ruta del directorio actual
+dir <- getwd()
+
+# Importación de base de datos "Twins" utilizando una ruta relativa
+twins <- read.csv(file.path(dir, "twins.txt"), header = TRUE)
 View(twins)
 
 # Selección de columnas "Twins"
 db_twins <- select(twins, HRWAGEH, HRWAGEL)
 
-# Exclusión de datos que se encuentran incompletosS
+# Exclusión de datos que se encuentran incompletos
 db_twins <- db_twins %>%
   filter(HRWAGEH != "." & HRWAGEL != ".")
 
