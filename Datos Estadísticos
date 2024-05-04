@@ -28,3 +28,13 @@ twins2 <- select(twins, HRWAGEL)
 twins2 <- twins2 %>%
   filter(HRWAGEL != ".")
 View(twins2)
+
+# Calcular la media para el gemelo 1 ("HRWAGEH")
+db_twins[] <- lapply(db_twins, as.numeric)
+mu_twins1 <- mean(db_twins$HRWAGEH)
+mu_twins1
+
+# Calcular la media para el gemelo 2 ("HRWGEL")
+db_twins[] <- lapply(db_twins, as.numeric)
+mu_twins2 <- mean(db_twins$HRWAGEL)
+mu_twins2
