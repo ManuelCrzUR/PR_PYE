@@ -48,3 +48,15 @@ mediana_twins1
 db_twins[] <- lapply(db_twins, as.numeric)
 mediana_twins2 <- median(db_twins$HRWAGEL)
 mediana_twins2
+
+install.packages("DescTools")
+library("DescTools")
+# Calcular la moda para el gemelo 1 ("HRWAGEH")
+db_twins[] <- lapply(db_twins, as.numeric)
+moda_twins1 <- Mode(db_twins$HRWAGEH)
+moda_twins1
+
+# Calcular la moda para el gemelo 2 ("HRWAGEL")
+db_twins[] <- lapply(db_twins, as.numeric)
+moda_twins2 <- Mode(db_twins$HRWAGEL)
+moda_twins2
