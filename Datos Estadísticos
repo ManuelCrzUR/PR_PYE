@@ -116,3 +116,9 @@ min(db_twins$HRWAGEH)
 
 # Calcular el mínimo para el gemelo 2 ("HRWAGEL")
 min(db_twins$HRWAGEL)
+
+# Calcular el máximo para el gemelo 1 ("HRWAGEH")
+max(db_twins$HRWAGEH)
+
+# Calcular el máximo para el gemelo 2 ("HRWAGEL")
+max(db_twins$HRWAGEL)
