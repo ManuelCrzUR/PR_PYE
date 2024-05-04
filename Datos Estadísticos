@@ -1,0 +1,30 @@
+install.packages("dplyr")
+library("dplyr")
+
+# Importación de base de datos "Twins" utilizando una ruta relativa
+twins <- read.csv(file.path(dir, "twins.txt"), header = TRUE)
+View(twins)
+
+# Selección de columnas "Twins"
+db_twins <- select(twins, HRWAGEH, HRWAGEL)
+
+# Exclusión de datos que se encuentran incompletos
+db_twins <- db_twins %>%
+  filter(HRWAGEH != "." & HRWAGEL != ".")
+View(db_twins)
+
+# Selección de la columna "HRWAGEH"
+twins1 <- select(twins, HRWAGEH)
+
+# Exclusión de los datos que son diferentes a "HRWAGEH"
+twins1 <- twins1 %>%
+  filter(HRWAGEH != ".")
+View(twins1)
+
+# Selección de la columna "HRWAGEL"
+twins2 <- select(twins, HRWAGEL)
+
+# Exclusión de los datos que son diferentes a "HRWAGEL"
+twins2 <- twins2 %>%
+  filter(HRWAGEL != ".")
+View(twins2)
