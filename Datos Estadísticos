@@ -38,3 +38,13 @@ mu_twins1
 db_twins[] <- lapply(db_twins, as.numeric)
 mu_twins2 <- mean(db_twins$HRWAGEL)
 mu_twins2
+
+# Calcular la mediana para el gemelo 1 ("HRWAGEH")
+db_twins[] <- lapply(db_twins, as.numeric)
+mediana_twins1 <- median(db_twins$HRWAGEH)
+mediana_twins1
+
+# Calcular la mediana para el gemelo 2 ("HRWAGEL")
+db_twins[] <- lapply(db_twins, as.numeric)
+mediana_twins2 <- median(db_twins$HRWAGEL)
+mediana_twins2
