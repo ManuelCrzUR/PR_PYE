@@ -60,3 +60,9 @@ moda_twins1
 db_twins[] <- lapply(db_twins, as.numeric)
 moda_twins2 <- Mode(db_twins$HRWAGEL)
 moda_twins2
+
+# Calcular el rango para el gemelo 1 ("HRWAGEH")
+range(db_twins$HRWAGEH)
+
+# Calcular el rango para el gemelo 2 ("HRWGEL")
+range(db_twins$HRWAGEL)
