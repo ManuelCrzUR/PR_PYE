@@ -78,3 +78,11 @@ sd(db_twins$HRWAGEH)
 
 # Calcular la desviación estándar para el gemelo 2 ("HRWAGEL")
 sd(db_twins$HRWAGEL)
+
+# Calcular el coeficiente de variación para el gemelo 1 ("HRWAGEH")
+CV <- sd(db_twins$HRWAGEH)/mean(db_twins$HRWAGEH)
+CV
+
+# Calcular el coeficiente de variación para el gemelo 2 ("HRWAGEL")
+CV <- sd(db_twins$HRWAGEL)/mean(db_twins$HRWAGEL)
+CV
