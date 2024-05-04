@@ -66,3 +66,9 @@ range(db_twins$HRWAGEH)
 
 # Calcular el rango para el gemelo 2 ("HRWGEL")
 range(db_twins$HRWAGEL)
+
+# Calcular la varianza para el gemelo 1 ("HRWAGEH")
+var(db_twins$HRWAGEH)
+
+# Calcular la varianza para el gemelo 2 ("HRWAGEL")
+var(db_twins$HRWAGEL)
