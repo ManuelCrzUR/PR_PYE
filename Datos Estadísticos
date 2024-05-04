@@ -72,3 +72,9 @@ var(db_twins$HRWAGEH)
 
 # Calcular la varianza para el gemelo 2 ("HRWAGEL")
 var(db_twins$HRWAGEL)
+
+# Calcular la desviación estándar para el gemelo 1 ("HRWAGEH")
+sd(db_twins$HRWAGEH)
+
+# Calcular la desviación estándar para el gemelo 2 ("HRWAGEL")
+sd(db_twins$HRWAGEL)
