@@ -193,6 +193,10 @@ min_twins2 <- min(db_twins$HRWAGEL)
 max_twins1 <- max(db_twins$HRWAGEH)
 max_twins2 <- max(db_twins$HRWAGEL)
 
+######## POSIBLE DEPLOY DE LOS GRAFICO DE ESTIMACIÓN KERNELL
+
+
+
 # Definir la interfaz de usuario
 ui <- fluidPage(
   tags$head(
@@ -388,6 +392,12 @@ ui <- fluidPage(
           br(),
           paste0("Máximo Gemelo 2 (HRWAGEL): ", max_twins2)
       )
+  ),
+  
+  # Nueva sección para análisis gráfico
+  div(class = 'seccion-analisis-grafico',
+      h2(class = "titulo-centrado", "Análisis Gráfico"),
+      # Agregar aquí los gráficos y descripciones correspondientes
   )
 )
 
@@ -404,4 +414,3 @@ server <- function(input, output, session) {
 
 # Run the application
 shinyApp(ui = ui, server = server)
-
