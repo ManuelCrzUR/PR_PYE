@@ -19,16 +19,14 @@ twins <- read.csv(file.path(dir, "twins.txt"), header = TRUE)
 # Selección de columnas "Twins"
 db_twins <- dplyr::select(twins, HRWAGEH, HRWAGEL)
 
-# Exclusión de datos que se encuentran incompletos
+#Exclusión de datos que se encuentran incompletos
 db_twins <- db_twins %>%
   filter(HRWAGEH != "." & HRWAGEL != ".")
 
-# Calcular la densidad de kernel para HRWAGEH
-densidad_hrwageh <- density(db_twins$HRWAGEH)
+# Crear nuevas variables numéricas a partir de las columnas existentes en db_twins
+db_twins_numeric <- db_twins %>%
+  mutate(HRWAGEH_numeric = as.numeric(HRWAGEH),
+         HRWAGEL_numeric = as.numeric(HRWAGEL))
 
-# Calcular la densidad de kernel para HRWAGEL
-densidad_hrwagel <- density(db_twins$HRWAGEL)
-
-# Graficar ambas densidades en el mismo gráfico
-plot(densidad_hrwageh, main = "Estimación de Kernel para HRWAGEH", xlab = "HRWAGEH", col = "blue")
-lines(densidad_hrwagel, col = "red")
+# Verificar el resultado
+str(db_twins_numeric)

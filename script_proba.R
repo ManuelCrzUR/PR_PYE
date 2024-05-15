@@ -15,7 +15,9 @@ twins <- read.csv(file.path(dir, "twins.txt"), header = TRUE)
 View(twins)
 
 # Selección de columnas "Twins"
-db_twins <- select(twins, HRWAGEH, HRWAGEL)
+# función select de dplyr
+
+db_twins <- dplyr::select(twins, HRWAGEH, HRWAGEL)
 
 # Exclusión de datos que se encuentran incompletos
 db_twins <- db_twins %>%
@@ -34,8 +36,6 @@ if (!require("ggplot2")) {
 db_twins <- select(twins, HRWAGEH, HRWAGEL)
 
 ####### ANALISIS NUMERICO 
-
-
 twins <- read.csv(file.path(dir, "twins.txt"), header = TRUE)
 View(twins)
 
@@ -294,7 +294,7 @@ ui <- fluidPage(
         img(src = file.path(dir, "imagen_izquierda.png"), class = "imagen"),
         "Proyecto Final Probabilidad y Estadistica 1",
         img(src = file.path(dir, "imagen_derecha.png"), class = "imagen"),
-        div(class = "integrantes", "Integrantes: Diego Buitrago, Manuel Cruz, Mariana Romero"),
+        div(class = "integrantes", "Integrantes: Manuel Cruz Garrote, Mariana Romero Reyes"),
         div(class = 'docente', 'Docente: Nicolas López López')
     )
   ),
