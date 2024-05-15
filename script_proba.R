@@ -1,4 +1,3 @@
-
 ##### FILTRO PARA LA BASE DE DATOS
 
 # Instalación y Descarga de libreria
@@ -34,6 +33,8 @@ if (!require("ggplot2")) {
 
 # Cargar los datos
 db_twins <- select(twins, HRWAGEH, HRWAGEL)
+
+
 
 ####### ANALISIS NUMERICO 
 twins <- read.csv(file.path(dir, "twins.txt"), header = TRUE)
@@ -193,10 +194,32 @@ min_twins2 <- min(db_twins$HRWAGEL)
 max_twins1 <- max(db_twins$HRWAGEH)
 max_twins2 <- max(db_twins$HRWAGEL)
 
+
+#########################3 CARGA PARA LA ESTIMACIÓN KERNELL
+
+# Crear nuevas variables numéricas a partir de las columnas existentes en db_twins
+db_twins_numeric <- db_twins %>%
+  mutate(HRWAGEH_numeric = as.numeric(HRWAGEH),
+         HRWAGEL_numeric = as.numeric(HRWAGEL))
+
+# Verificar el resultado
+str(db_twins_numeric)
+
+# Calcular la densidad de kernel para HRWAGEH_numeric
+densidad_hrwageh_numeric <- density(db_twins_numeric$HRWAGEH_numeric)
+
+# Graficar la densidad de kernel para HRWAGEH_numeric
+plot(densidad_hrwageh_numeric, main = "Densidad de Kernel para HRWAGEH_numeric",
+     xlab = "HRWAGEH_numeric", ylab = "Densidad")
+
+# Calcular la densidad de kernel para HRWAGEL_numeric
+densidad_hrwagel_numeric <- density(db_twins_numeric$HRWAGEL_numeric)
+
+# Graficar la densidad de kernel para HRWAGEL_numeric
+plot(densidad_hrwagel_numeric, main = "Densidad de Kernel para HRWAGEL_numeric",
+     xlab = "HRWAGEL_numeric", ylab = "Densidad")
+
 ######## POSIBLE DEPLOY DE LOS GRAFICO DE ESTIMACIÓN KERNELL
-
-
-
 # Definir la interfaz de usuario
 ui <- fluidPage(
   tags$head(
@@ -398,7 +421,10 @@ ui <- fluidPage(
   div(class = 'seccion-analisis-grafico',
       h2(class = "titulo-centrado", "Análisis Gráfico"),
       # Agregar aquí los gráficos y descripciones correspondientes
+      plotOutput("densidad_hrwageh_numeric"),
+      plotOutput("densidad_hrwagel_numeric")
   )
+  
 )
 
 # Define server logic
@@ -410,7 +436,31 @@ server <- function(input, output, session) {
   observeEvent(input$nav_clicked, {
     scrollToElement(".introduccion")
   })
+  
+  # Crear nuevas variables numéricas a partir de las columnas existentes en db_twins
+  db_twins_numeric <- db_twins %>%
+    mutate(HRWAGEH_numeric = as.numeric(HRWAGEH),
+           HRWAGEL_numeric = as.numeric(HRWAGEL))
+  
+  # Calcular la densidad de kernel para HRWAGEH_numeric
+  densidad_hrwageh_numeric <- density(db_twins_numeric$HRWAGEH_numeric)
+  
+  # Graficar la densidad de kernel para HRWAGEH_numeric
+  output$densidad_hrwageh_numeric <- renderPlot({
+    plot(densidad_hrwageh_numeric, main = "Densidad de Kernel para HRWAGEH_numeric",
+         xlab = "HRWAGEH_numeric", ylab = "Densidad")
+  })
+  
+  # Calcular la densidad de kernel para HRWAGEL_numeric
+  densidad_hrwagel_numeric <- density(db_twins_numeric$HRWAGEL_numeric)
+  
+  # Graficar la densidad de kernel para HRWAGEL_numeric
+  output$densidad_hrwagel_numeric <- renderPlot({
+    plot(densidad_hrwagel_numeric, main = "Densidad de Kernel para HRWAGEL_numeric",
+         xlab = "HRWAGEL_numeric", ylab = "Densidad")
+  })
 }
+
 
 # Run the application
 shinyApp(ui = ui, server = server)
