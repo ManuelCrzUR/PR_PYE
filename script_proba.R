@@ -35,7 +35,6 @@ if (!require("ggplot2")) {
 db_twins <- select(twins, HRWAGEH, HRWAGEL)
 
 
-
 ####### ANALISIS NUMERICO 
 twins <- read.csv(file.path(dir, "twins.txt"), header = TRUE)
 View(twins)
@@ -90,11 +89,6 @@ library("DescTools")
 db_twins[] <- lapply(db_twins, as.numeric)
 moda_twins1 <- Mode(db_twins$HRWAGEH)
 moda_twins1
-
-#Moda <- function(x) {
-#moda <- Mode(x)
-#return(moda[1])
-#}
 
 # Calcular la moda para el gemelo 2 ("HRWAGEL")
 db_twins[] <- lapply(db_twins, as.numeric)
@@ -169,30 +163,30 @@ max(db_twins$HRWAGEL)
 library(shiny)
 
 # Guardar los resultados de los cálculos en variables
-media_twins1 <- mu_twins1
-media_twins2 <- mu_twins2
+media_twins1 <- round(mu_twins1, digits = 2)
+media_twins2 <- round(mu_twins2, digits = 2)
 mediana_twins1 <- mediana_twins1
 mediana_twins2 <- mediana_twins2
 moda_twins1 <- moda_twins1
 moda_twins2 <- moda_twins2
-rango_twins1 <- range(db_twins$HRWAGEH)
-rango_twins2 <- range(db_twins$HRWAGEL)
-varianza_twins1 <- var(db_twins$HRWAGEH)
-varianza_twins2 <- var(db_twins$HRWAGEL)
-desviacion_twins1 <- sd(db_twins$HRWAGEH)
-desviacion_twins2 <- sd(db_twins$HRWAGEL)
-cv_twins1 <- CV <- sd(db_twins$HRWAGEH)/mean(db_twins$HRWAGEH)
-cv_twins2 <- CV <- sd(db_twins$HRWAGEL)/mean(db_twins$HRWAGEL)
+rango_twins1 <- round(range(db_twins$HRWAGEH), digits = 2)
+rango_twins2 <- round(range(db_twins$HRWAGEL), digits = 2)
+varianza_twins1 <- round(var(db_twins$HRWAGEH), digits = 2)
+varianza_twins2 <- round(var(db_twins$HRWAGEL), digits = 2)
+desviacion_twins1 <- round(sd(db_twins$HRWAGEH), digits = 2)
+desviacion_twins2 <- round(sd(db_twins$HRWAGEL), digits = 2)
+cv_twins1 <- CV <- round(sd(db_twins$HRWAGEH)/mean(db_twins$HRWAGEH), digits = 2)
+cv_twins2 <- CV <- round(sd(db_twins$HRWAGEL)/mean(db_twins$HRWAGEL), digits = 2)
 Q1_twins1 <- Q1_1
 Q1_twins2 <- Q1_2
 Q2_twins1 <- Q2_1
 Q2_twins2 <- Q2_2
 Q3_twins1 <- Q3_1
-Q3_twins2 <- Q3_2
-min_twins1 <- min(db_twins$HRWAGEH)
-min_twins2 <- min(db_twins$HRWAGEL)
-max_twins1 <- max(db_twins$HRWAGEH)
-max_twins2 <- max(db_twins$HRWAGEL)
+Q3_twins2 <- round(Q3_2, digits = 2)
+min_twins1 <- round(min(db_twins$HRWAGEH), digits = 2)
+min_twins2 <- round(min(db_twins$HRWAGEL), digits = 2)
+max_twins1 <- round(max(db_twins$HRWAGEH), digits = 2)
+max_twins2 <- round(max(db_twins$HRWAGEL), digits = 2)
 
 
 #########################3 CARGA PARA LA ESTIMACIÓN KERNELL
