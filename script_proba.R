@@ -1,5 +1,4 @@
-##### FILTRO PARA LA BASE DE DATOS
-
+####### FILTRO PARA LA BASE DE DATOS
 # Instalación y Descarga de libreria
 if (!require("dplyr")) {
   install.packages("dplyr")
@@ -15,17 +14,14 @@ View(twins)
 
 # Selección de columnas "Twins"
 # función select de dplyr
-
 db_twins <- dplyr::select(twins, HRWAGEH, HRWAGEL)
 
 # Exclusión de datos que se encuentran incompletos
 db_twins <- db_twins %>%
   filter(HRWAGEH != "." & HRWAGEL != ".")
-
 View(db_twins)
 
-####### ESTIMACIÓN KERNELL
-
+#######ESTIMACIÓN KERNELL
 # Cargar paquete necesario si no está instalado
 if (!require("ggplot2")) {
   install.packages("ggplot2")
@@ -33,7 +29,6 @@ if (!require("ggplot2")) {
 
 # Cargar los datos
 db_twins <- select(twins, HRWAGEH, HRWAGEL)
-
 
 ####### ANALISIS NUMERICO 
 twins <- read.csv(file.path(dir, "twins.txt"), header = TRUE)
@@ -157,9 +152,7 @@ max(db_twins$HRWAGEH)
 # Calcular el máximo para el gemelo 2 ("HRWAGEL")
 max(db_twins$HRWAGEL)
 
-
-####### UI PAGINA WEB
-
+#######UI PAGINA WEB
 library(shiny)
 
 # Guardar los resultados de los cálculos en variables
@@ -188,9 +181,7 @@ min_twins2 <- round(min(db_twins$HRWAGEL), digits = 2)
 max_twins1 <- round(max(db_twins$HRWAGEH), digits = 2)
 max_twins2 <- round(max(db_twins$HRWAGEL), digits = 2)
 
-
-#########################3 CARGA PARA LA ESTIMACIÓN KERNELL
-
+######CARGA PARA LA ESTIMACIÓN KERNELL
 # Crear nuevas variables numéricas a partir de las columnas existentes en db_twins
 db_twins_numeric <- db_twins %>%
   mutate(HRWAGEH_numeric = as.numeric(HRWAGEH),
@@ -213,7 +204,10 @@ densidad_hrwagel_numeric <- density(db_twins_numeric$HRWAGEL_numeric)
 plot(densidad_hrwagel_numeric, main = "Densidad de Kernel para HRWAGEL_numeric",
      xlab = "HRWAGEL_numeric", ylab = "Densidad")
 
-######## POSIBLE DEPLOY DE LOS GRAFICO DE ESTIMACIÓN KERNELL
+######POSIBLE DEPLOY DE LOS GRAFICO DE ESTIMACIÓN KERNELL
+install.packages("DT")
+library(DT)
+
 # Definir la interfaz de usuario
 ui <- fluidPage(
   tags$head(
@@ -318,9 +312,8 @@ ui <- fluidPage(
   
   navbarPage(
     "Barra de Navegación", # Título de la página
-    tabPanel("Autores"),
     tabPanel("Contextualización", onClick = "Shiny.setInputValue('nav_clicked', 'introduccion')"),
-    tabPanel("Medidas TC"),
+    tabPanel("Datos Estadísticos"),
     tabPanel("Estimación Kernell"),
     tabPanel("Análisis de Resultados"),
     tabPanel("Conclusiones")
@@ -328,13 +321,18 @@ ui <- fluidPage(
   
   # Div encapsulador de la sección "Contextualización"
   div(class = "contextualizacion",
-      # Itroducción 
+      # Introducción 
       div(class = 'introduccion',
           'Introducción:'
       ),
       # Nuevo apartado para añadir texto explicativo
       div(class = "explicacion",
-          "Este es el proyecto final para la asignatura de Probabilidad y Estadística 1, para el semestre 2024 - 1. En esta aplicación, presentamos los resultados de nuestro análisis estadístico sobre un conjunto de datos específico. Utilizamos la plataforma Shiny para crear una interfaz interactiva que permite a los usuarios explorar los datos y entender mejor nuestras conclusiones."
+          "En esta página se presenta el proyecto final para la asignatura 
+          Probabilidad y Estadística 1, correspondiente al semestre 2024-1.
+          En esta aplicación, se muestran los resultados del análisis 
+          estadístico sobre un conjunto de datos específico. Utilizamos la 
+          plataforma Shiny para crear una interfaz interactiva que permite a los 
+          usuarios explorar los datos y entender mejor nuestras conclusiones."
       ), 
       # Descripción del problema
       div(class = 'problema',
@@ -342,8 +340,7 @@ ui <- fluidPage(
       ), 
       div(class = 'sust_problema', 
           'Se cuenta con información de pares de gemelos monocigóticos mayores de 18 años, y se desea contrastar el fenomeno de años de educación, asociados con el ingreso por hora.'
-      ), 
-      
+      ),
       div(class = 'metodologia', 
           'Metodologia:',
       ),
@@ -356,69 +353,31 @@ ui <- fluidPage(
       )
   ),
   
-  # Nueva sección para medidas de TC
+  # Nueva sección para datos estadísticos
   div(class = 'seccion-medidas-tc',
-      h2(class = "titulo-centrado", "Medidas de TC"),
+      h2(class = "titulo-centrado", "Datos Estadísticos"),
       # Resultados de los cálculos
-      div(class = "resultados",
-          paste0("Media Gemelo 1 (HRWAGEH): ", media_twins1),
-          br(),
-          paste0("Media Gemelo 2 (HRWAGEL): ", media_twins2),
-          br(),
-          paste0("Mediana Gemelo 1 (HRWAGEH): ", mediana_twins1),
-          br(),
-          paste0("Mediana Gemelo 2 (HRWAGEL): ", mediana_twins2),
-          br(),
-          paste0("Moda Gemelo 1 (HRWAGEH): ", moda_twins1),
-          br(),
-          paste0("Moda Gemelo 2 (HRWAGEL): ", moda_twins2),
-          br(),
-          paste0("Rango Gemelo 1 (HRWAGEH): ", rango_twins1[2] - rango_twins1[1]),
-          br(),
-          paste0("Rango Gemelo 2 (HRWAGEL): ", rango_twins2[2] - rango_twins2[1]),
-          br(),
-          paste0("Varianza Gemelo 1 (HRWAGEH): ", varianza_twins1),
-          br(),
-          paste0("Varianza Gemelo 2 (HRWAGEL): ", varianza_twins2),
-          br(),
-          paste0("Desviación Estándar Gemelo 1 (HRWAGEH): ", desviacion_twins1),
-          br(),
-          paste0("Desviación Estándar Gemelo 2 (HRWAGEL): ", desviacion_twins2),
-          br(),
-          paste0("Coeficiente de Variación Gemelo 1 (HRWAGEH): ", cv_twins1),
-          br(),
-          paste0("Coeficiente de Variación Gemelo 2 (HRWAGEL): ", cv_twins2),
-          br(),
-          paste0("Q1 Gemelo 1 (HRWAGEH): ", Q1_twins1),
-          br(),
-          paste0("Q1 Gemelo 2 (HRWAGEL): ", Q1_twins2),
-          br(),
-          paste0("Q2 Gemelo 1 (HRWAGEH): ", Q2_twins1),
-          br(),
-          paste0("Q2 Gemelo 2 (HRWAGEL): ", Q2_twins2),
-          br(),
-          paste0("Q3 Gemelo 1 (HRWAGEH): ", Q3_twins1),
-          br(),
-          paste0("Q3 Gemelo 2 (HRWAGEL): ", Q3_twins2),
-          br(),
-          paste0("Mínimo Gemelo 1 (HRWAGEH): ", min_twins1),
-          br(),
-          paste0("Mínimo Gemelo 2 (HRWAGEL): ", min_twins2),
-          br(),
-          paste0("Máximo Gemelo 1 (HRWAGEH): ", max_twins1),
-          br(),
-          paste0("Máximo Gemelo 2 (HRWAGEL): ", max_twins2)
+      DTOutput("statisticsTable")
       )
   ),
   
-  # Nueva sección para análisis gráfico
-  div(class = 'seccion-analisis-grafico',
-      h2(class = "titulo-centrado", "Análisis Gráfico"),
+  # Nueva sección para estimación kernell
+  div(class = 'seccion-estimacion-kernell',
+      h2(class = "titulo-centrado", "Estimación Kernell"),
       # Agregar aquí los gráficos y descripciones correspondientes
       plotOutput("densidad_hrwageh_numeric"),
       plotOutput("densidad_hrwagel_numeric")
-  )
-  
+  ),
+
+  # Nueva sección para análisis de resultados
+  div(class = 'seccion-analisis-de-resultados',
+      h2(class = "titulo-centrado", "Análsis de Resultados"),
+  ),
+
+  # Nueva sección para conclusiones
+  div(class = 'seccion-conclusiones',
+      h2(class = "titulo-centrado", "Conclusiones"),
+  ),
 )
 
 # Define server logic
@@ -426,9 +385,11 @@ server <- function(input, output, session) {
   output$mensaje <- renderText({
     "¡Hola desde mi primera aplicación Shiny!"
   })
-  
   observeEvent(input$nav_clicked, {
     scrollToElement(".introduccion")
+  })
+  output$statisticsTable <- renderDT({
+    datatable(resultados, options = list(pageLenght = 12, autowidth = TRUE))
   })
   
   # Crear nuevas variables numéricas a partir de las columnas existentes en db_twins
@@ -454,7 +415,6 @@ server <- function(input, output, session) {
          xlab = "HRWAGEL_numeric", ylab = "Densidad")
   })
 }
-
 
 # Run the application
 shinyApp(ui = ui, server = server)
