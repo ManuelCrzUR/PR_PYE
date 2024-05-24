@@ -28,14 +28,148 @@ db <- db %>%
   filter(HRWAGEH != "." & HRWAGEL != ".")
 View(db)
 
-# selección de las horas de estudio
+# selección de los años de estudio
 db_twins <- dplyr::select(db, HRWAGEH, HRWAGEL)
 View(db_twins)
 
 db_hr <- dplyr::select(db, EDUCH, EDUCL)
 View(db_hr)
 
-#######ESTIMACIÓN KERNELL
+################### ANALISIS NUMERICO PARA AÑOS DE EDUCACIÓN:
+
+# Cargar las librerías necesarias
+install.packages("DescTools")
+library("DescTools")
+library("dplyr")
+
+# Seleccionar las columnas de interés
+db_hr <- dplyr::select(db, EDUCH, EDUCL)
+View(db_hr)
+
+# Convertir todas las columnas a numérico
+db_hr[] <- lapply(db_hr, as.numeric)
+
+# Calcular la media para EDUCH
+mu_hr1 <- mean(db_hr$EDUCH, na.rm = TRUE)
+mu_hr1
+
+# Calcular la media para EDUCL
+mu_hr2 <- mean(db_hr$EDUCL, na.rm = TRUE)
+mu_hr2
+
+# Calcular la mediana para EDUCH
+mediana_hr1 <- median(db_hr$EDUCH, na.rm = TRUE)
+mediana_hr1
+
+# Calcular la mediana para EDUCL
+mediana_hr2 <- median(db_hr$EDUCL, na.rm = TRUE)
+mediana_hr2
+
+# Calcular la moda para EDUCH
+moda_hr1 <- Mode(db_hr$EDUCH, na.rm = TRUE)
+moda_hr1
+
+# Calcular la moda para EDUCL
+moda_hr2 <- Mode(db_hr$EDUCL, na.rm = TRUE)
+moda_hr2
+
+# Calcular el rango para EDUCH
+rango_hr1 <- range(db_hr$EDUCH, na.rm = TRUE)
+rango_hr1
+
+# Calcular el rango para EDUCL
+rango_hr2 <- range(db_hr$EDUCL, na.rm = TRUE)
+rango_hr2
+
+# Calcular la varianza para EDUCH
+varianza_hr1 <- var(db_hr$EDUCH, na.rm = TRUE)
+varianza_hr1
+
+# Calcular la varianza para EDUCL
+varianza_hr2 <- var(db_hr$EDUCL, na.rm = TRUE)
+varianza_hr2
+
+# Calcular la desviación estándar para EDUCH
+desviacion_hr1 <- sd(db_hr$EDUCH, na.rm = TRUE)
+desviacion_hr1
+
+# Calcular la desviación estándar para EDUCL
+desviacion_hr2 <- sd(db_hr$EDUCL, na.rm = TRUE)
+desviacion_hr2
+
+# Calcular el coeficiente de variación para EDUCH
+cv_hr1 <- sd(db_hr$EDUCH, na.rm = TRUE) / mean(db_hr$EDUCH, na.rm = TRUE)
+cv_hr1
+
+# Calcular el coeficiente de variación para EDUCL
+cv_hr2 <- sd(db_hr$EDUCL, na.rm = TRUE) / mean(db_hr$EDUCL, na.rm = TRUE)
+cv_hr2
+
+# Calcular Q1 para EDUCH
+Q1_hr1 <- quantile(db_hr$EDUCH, 0.25, na.rm = TRUE)
+Q1_hr1
+
+# Calcular Q1 para EDUCL
+Q1_hr2 <- quantile(db_hr$EDUCL, 0.25, na.rm = TRUE)
+Q1_hr2
+
+# Calcular Q2 para EDUCH
+Q2_hr1 <- quantile(db_hr$EDUCH, 0.50, na.rm = TRUE)
+Q2_hr1
+
+# Calcular Q2 para EDUCL
+Q2_hr2 <- quantile(db_hr$EDUCL, 0.50, na.rm = TRUE)
+Q2_hr2
+
+# Calcular Q3 para EDUCH
+Q3_hr1 <- quantile(db_hr$EDUCH, 0.75, na.rm = TRUE)
+Q3_hr1
+
+# Calcular Q3 para EDUCL
+Q3_hr2 <- quantile(db_hr$EDUCL, 0.75, na.rm = TRUE)
+Q3_hr2
+
+# Calcular el mínimo para EDUCH
+min_hr1 <- min(db_hr$EDUCH, na.rm = TRUE)
+min_hr1
+
+# Calcular el mínimo para EDUCL
+min_hr2 <- min(db_hr$EDUCL, na.rm = TRUE)
+min_hr2
+
+# Calcular el máximo para EDUCH
+max_hr1 <- max(db_hr$EDUCH, na.rm = TRUE)
+max_hr1
+
+# Calcular el máximo para EDUCL
+max_hr2 <- max(db_hr$EDUCL, na.rm = TRUE)
+max_hr2
+
+# Redondear los resultados
+media_hr1 <- round(mu_hr1, digits = 2)
+media_hr2 <- round(mu_hr2, digits = 2)
+mediana_hr1 <- mediana_hr1
+mediana_hr2 <- mediana_hr2
+moda_hr1 <- moda_hr1
+moda_hr2 <- moda_hr2
+rango_hr1 <- round(rango_hr1, digits = 2)
+rango_hr2 <- round(rango_hr2, digits = 2)
+varianza_hr1 <- round(varianza_hr1, digits = 2)
+varianza_hr2 <- round(varianza_hr2, digits = 2)
+desviacion_hr1 <- round(desviacion_hr1, digits = 2)
+desviacion_hr2 <- round(desviacion_hr2, digits = 2)
+cv_hr1 <- round(cv_hr1, digits = 2)
+cv_hr2 <- round(cv_hr2, digits = 2)
+Q1_hr1 <- Q1_hr1
+Q1_hr2 <- Q1_hr2
+Q2_hr1 <- Q2_hr1
+Q2_hr2 <- Q2_hr2
+Q3_hr1 <- Q3_hr1
+Q3_hr2 <- round(Q3_hr2, digits = 2)
+min_hr1 <- round(min_hr1, digits = 2)
+min_hr2 <- round(min_hr2, digits = 2)
+max_hr1 <- round(max_hr1, digits = 2)
+max_hr2 <- round(max_hr2, digits = 2)
 
 
 # Cargar los datos
@@ -547,12 +681,14 @@ ui <- fluidPage(
   
   # Nueva sección para datos estadísticos
   div(class = 'seccion-medidas-tc',
-      h2(class = "titulo-centrado", "Datos Estadísticos"),
+      h2(class = "titulo-centrado", "Datos Estadísticos para ingresos por hora de gemelos H y L"),
       # Resultados de los cálculos
       DTOutput("statisticsTable")
-      )
-  ,
-  
+      
+  ),
+  div(class = 'seccion-medidas-tc-2', 
+      h2(class = "titulo-centrado", "Datos Estadísticos para los años de educación de gemelos H y L")
+  ),
   # Nueva sección para estimación kernell
   div(class = 'seccion-estimacion-kernell',
       h2(class = "titulo-centrado", "Estimación Kernell para ingresos por hora de gemelos H y L"),
