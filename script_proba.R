@@ -4,12 +4,13 @@ if (!require("dplyr")) {
   install.packages("dplyr")
 }
 library(dplyr)
+install.packages("tibble")
+library(tibble)
 
 # Cargar paquete necesario si no está instalado
 if (!require("ggplot2")) {
   install.packages("ggplot2")
 }
-library(dplyr)
 
 # Obtención de la ruta del directorio actual
 dir <- getwd()
@@ -146,12 +147,13 @@ max_hr2 <- max(db_hr$EDUCL, na.rm = TRUE)
 max_hr2
 
 # Redondear los resultados
-media_hr1 <- round(mu_hr1, digits = 2)
-media_hr2 <- round(mu_hr2, digits = 2)
-mediana_hr1 <- mediana_hr1
-mediana_hr2 <- mediana_hr2
-moda_hr1 <- moda_hr1
-moda_hr2 <- moda_hr2
+est <- function(db_twins) {
+media_hr1 <- paste0(round(mu_hr1, digits = 2), " $/h")
+media_hr2 <- paste0(round(mu_hr2, digits = 2), " $/h")
+mediana_hr1 <- paste0(mediana_hr1, " $/h")
+mediana_hr2 <- paste0(mediana_hr2, " $/h")
+moda_hr1 <- paste0(moda_hr1, " $/h")
+moda_hr2 <- paste0(moda_hr2, " $/h")
 rango_hr1 <- round(rango_hr1, digits = 2)
 rango_hr2 <- round(rango_hr2, digits = 2)
 varianza_hr1 <- round(varianza_hr1, digits = 2)
@@ -171,6 +173,20 @@ min_hr2 <- round(min_hr2, digits = 2)
 max_hr1 <- round(max_hr1, digits = 2)
 max_hr2 <- round(max_hr2, digits = 2)
 
+resultados <- data.frame(
+  Estadística = c("Media", "Mediana", "Moda", "Rango", "Varianza", "Desviación Estándar", "Coeficiente de Variación", "Q1", "Q2", "Q3", "Mínimo", "Máximo"),
+  Twins1 = c(round(media_hr1, 2), mediana_hr1, moda_hr1, paste(rango_hr1, collapse = " - "), varianza_hr1, desviacion_hr1, cv_hr1, Q1_hr1, Q2_hr1, Q3_hr1, min_hr1, max_hr1),
+  Twins2 = c(round(media_hr2, 2), mediana_hr2, moda_hr2, paste(rango_hr2, collapse = " - "), varianza_hr2, desviacion_hr2, cv_hr2, Q1_hr2, Q2_hr2, Q3_hr2, min_hr2, max_hr2)
+)}
+View(resultados)
+
+tabla2 <- tibble(
+  Estadística = c("Media", "Mediana", "Moda", "Rango", "Varianza", "Desviación Estándar", "Coeficiente de Variación", "Q1", "Q2", "Q3", "Mínimo", "Máximo"),
+  Twins1 = c(media_hr1, mediana_hr1, moda_hr1, paste(rango_hr1, collapse = " - "), round(varianza_hr1, 2), round(desviacion_hr1, 2), round(cv_hr1, 2), Q1_hr1, Q2_hr1, Q3_hr1, min_hr1, max_hr1),
+  Twins2 = c(media_hr2, mediana_hr2, moda_hr2, paste(rango_hr2, collapse = " - "), round(varianza_hr2, 2), round(desviacion_hr2, 2), round(cv_hr2, 2), Q1_hr2, Q2_hr2, Q3_hr2, min_hr2, max_hr2)
+)
+
+print(tabla2)
 
 # Cargar los datos
 db_twins <- select(twins, HRWAGEH, HRWAGEL)
@@ -325,6 +341,21 @@ min_twins1 <- round(min(db_twins$HRWAGEH), digits = 2)
 min_twins2 <- round(min(db_twins$HRWAGEL), digits = 2)
 max_twins1 <- round(max(db_twins$HRWAGEH), digits = 2)
 max_twins2 <- round(max(db_twins$HRWAGEL), digits = 2)
+
+resultados2 <- data.frame(
+  Estadística = c("Media", "Mediana", "Moda", "Rango", "Varianza", "Desviación Estándar", "Coeficiente de Variación", "Q1", "Q2", "Q3", "Mínimo", "Máximo"),
+  Twins1 = c(mu_twins1, mediana_twins1, moda_twins1, paste(rango_twins1, collapse = " - "), varianza_twins1, desviacion_twins1, cv_twins1, Q1_twins1, Q2_twins1, Q3_twins1, min_twins1, max_twins1),
+  Twins2 = c(mu_twins2, mediana_twins2, moda_twins2, paste(rango_twins2, collapse = " - "), varianza_twins2, desviacion_twins2, cv_twins2, Q1_twins2, Q2_twins2, Q3_twins2, min_twins2, max_twins2)
+)
+View(resultados2)
+
+tabla1 <- tibble(
+  Estadística = c("Media", "Mediana", "Moda", "Rango", "Varianza", "Desviación Estándar", "Coeficiente de Variación", "Q1", "Q2", "Q3", "Mínimo", "Máximo"),
+  Twins1 = c(round(mu_twins1, 2), mediana_twins1, moda_twins1, paste(rango_twins1, collapse = " - "), varianza_twins1, desviacion_twins1, cv_twins1, Q1_twins1, Q2_twins1, Q3_twins1, min_twins1, max_twins1),
+  Twins2 = c(round(mu_twins2, 2), mediana_twins2, moda_twins2, paste(rango_twins2, collapse = " - "), varianza_twins2, desviacion_twins2, cv_twins2, Q1_twins2, Q2_twins2, Q3_twins2, min_twins2, max_twins2)
+)
+
+print(tabla1)
 
 ######CARGA PARA LA ESTIMACIÓN KERNELL
 # Crear nuevas variables numéricas a partir de las columnas existentes en db_twins
@@ -483,6 +514,10 @@ ui <- fluidPage(
         padding: 20px;
         margin-top: 20px; /* Espacio superior */
         border-radius: 10px; /* Bordes redondeados */
+      }
+      .seccion-tabla1 {
+        font-size: 16px;
+        margin: 20px;
       }
       .seccion-estimacion-kernell {
         text-align: center; /* Centra los elementos dentro de la sección */
@@ -683,11 +718,30 @@ ui <- fluidPage(
   div(class = 'seccion-medidas-tc',
       h2(class = "titulo-centrado", "Datos Estadísticos para ingresos por hora de gemelos H y L"),
       # Resultados de los cálculos
-      DTOutput("statisticsTable")
-      
+      sidebarLayout(
+        sidebarPanel(
+          selectInput("gemelo", "Selecciona Gemelo:", choices = c("Gemelo 1", "Gemelo 2"))
+        ),
+        mainPanel(
+          tableOutput("tabla1")
+        )
+      )
   ),
+  div(class = 'seccion-tabla1',
+      '*Estos datos se presentan con unidades de USD, dado que es el salario por hora para cada gemelo.*'
+      ),
+  
   div(class = 'seccion-medidas-tc-2', 
-      h2(class = "titulo-centrado", "Datos Estadísticos para los años de educación de gemelos H y L")
+      h2(class = "titulo-centrado", "Datos Estadísticos para los años de educación de gemelos H y L"),
+      # Resultados de los cálculos
+      sidebarLayout(
+        sidebarPanel(
+          selectInput("gemelo", "Selecciona Gemelo:", choices = c("Gemelo 1", "Gemelo 2"))
+        ),
+        mainPanel(
+          tableOutput("tabla2")
+        )
+      )
   ),
   # Nueva sección para estimación kernell
   div(class = 'seccion-estimacion-kernell',
@@ -696,16 +750,6 @@ ui <- fluidPage(
       actionButton("btn_densidad_hrwagel", "Mostrar Gráfica de HRWAGEL"),
       plotOutput("densidad_hrwageh_numeric"),
       plotOutput("densidad_hrwagel_numeric")
-  ),
-
-  # Nueva sección para análisis de resultados
-  div(class = 'seccion-analisis-de-resultados',
-      h2(class = "titulo-centrado", "Análsis de Resultados"),
-  ),
-
-  # Nueva sección para conclusiones
-  div(class = 'seccion-conclusiones',
-      h2(class = "titulo-centrado", "Conclusiones"),
   ),
 )
 
@@ -717,8 +761,29 @@ server <- function(input, output, session) {
   observeEvent(input$nav_clicked, {
     scrollToElement(".introduccion")
   })
-  output$statisticsTable <- renderDT({
-    datatable(resultados, options = list(pageLenght = 12, autowidth = TRUE))
+  output$tabla1 <- renderTable({
+    req(input$gemelo) #Asegura que input$gemelo no es NULL ni vacio
+    if (input$gemelo == "Gemelo 1") {
+      tabla1 %>%
+        select(Estadística, Twins1) %>%
+        rename(Valor = Twins1)
+    }else {
+      tabla2 %>%
+        select(Estadística, Twins2) %>%
+        rename(Valor = Twins2)
+    }
+  })
+  output$tabla2 <- renderTable({
+    req(input$gemelo) #Asegura que input$gemelo no es NULL ni vacio
+    if (input$gemelo == "Gemelo 1") {
+      tabla2 %>%
+        select(Estadística, Twins1) %>%
+        rename(Valor = Twins1)
+    }else{
+      tabla2 %>%
+        select(Estadística, Twins2) %>%
+        rename(Valor = Twins2)
+    }
   })
   
   # Crear nuevas variables numéricas a partir de las columnas existentes en db_twins
